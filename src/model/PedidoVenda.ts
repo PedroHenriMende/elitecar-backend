@@ -13,7 +13,7 @@ export class PedidoVenda {
     /**
      * Identificador do carro relacionado ao pedido de venda.
      */
-    private idCarro: number = 0;
+    private idCarro: number;
 
     /**
      * Data em que o pedido de venda foi feito.
@@ -27,20 +27,26 @@ export class PedidoVenda {
 
     /**
      * Construtor da classe PedidoVenda.
-     * Inicializa os atributos dataPedido e valorPedido com os valores fornecidos.
+     * Inicializa os atributos idPedido, idCarro, dataPedido e valorPedido com os valores fornecidos.
      * 
+     * @param idPedido - Identificador único do pedido de venda.
+     * @param idCarro - Identificador do carro relacionado ao pedido.
      * @param dataPedido - Data do pedido de venda.
      * @param valorPedido - Valor total do pedido de venda.
      */
     constructor(
+        idPedido: number,
+        idCarro: number,
         dataPedido: Date,
         valorPedido: number
     ) {
+        this.idPedido = idPedido;
+        this.idCarro = idCarro;
         this.dataPedido = dataPedido;
         this.valorPedido = valorPedido;
     }
 
-    /* Métodos Getters */
+    /* Métodos para o atributo idPedido */
 
     /**
      * Obtém o ID do pedido de venda.
@@ -52,41 +58,23 @@ export class PedidoVenda {
     }
 
     /**
-     * Obtém o ID do carro relacionado ao pedido de venda.
-     * 
-     * @returns O identificador do carro.
-     */
-    public getIdCarro(): number {
-        return this.idCarro;
-    }
-
-    /**
-     * Obtém a data do pedido de venda.
-     * 
-     * @returns A data em que o pedido foi feito.
-     */
-    public getDataPedido(): Date {
-        return this.dataPedido;
-    }
-
-    /**
-     * Obtém o valor do pedido de venda.
-     * 
-     * @returns O valor total do pedido de venda.
-     */
-    public getValorPedido(): number {
-        return this.valorPedido;
-    }
-
-    /* Métodos Setters */
-
-    /**
      * Define o ID do pedido de venda.
      * 
      * @param idPedido - Novo identificador único para o pedido de venda.
      */
     public setIdPedido(idPedido: number): void {
         this.idPedido = idPedido;
+    }
+
+    /* Métodos para o atributo idCarro */
+
+    /**
+     * Obtém o ID do carro relacionado ao pedido de venda.
+     * 
+     * @returns O identificador do carro.
+     */
+    public getIdCarro(): number {
+        return this.idCarro;
     }
 
     /**
@@ -98,6 +86,17 @@ export class PedidoVenda {
         this.idCarro = idCarro;
     }
 
+    /* Métodos para o atributo dataPedido */
+
+    /**
+     * Obtém a data do pedido de venda.
+     * 
+     * @returns A data em que o pedido foi feito.
+     */
+    public getDataPedido(): Date {
+        return this.dataPedido;
+    }
+
     /**
      * Define a data do pedido de venda.
      * 
@@ -105,6 +104,17 @@ export class PedidoVenda {
      */
     public setDataPedido(dataPedido: Date): void {
         this.dataPedido = dataPedido;
+    }
+
+    /* Métodos para o atributo valorPedido */
+
+    /**
+     * Obtém o valor do pedido de venda.
+     * 
+     * @returns O valor total do pedido de venda.
+     */
+    public getValorPedido(): number {
+        return this.valorPedido;
     }
 
     /**

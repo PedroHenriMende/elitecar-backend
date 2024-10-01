@@ -46,7 +46,7 @@ export class Cliente {
         this.telefone = telefone;
     }
 
-    /* Métodos Getters */
+    /* Métodos para o atributo idCliente */
 
     /**
      * Obtém o ID do cliente.
@@ -58,41 +58,23 @@ export class Cliente {
     }
 
     /**
-     * Obtém o nome do cliente.
-     * 
-     * @returns O nome completo do cliente.
-     */
-    public getNome(): string {
-        return this.nome;
-    }
-
-    /**
-     * Obtém o CPF do cliente.
-     * 
-     * @returns O CPF do cliente.
-     */
-    public getCpf(): string {
-        return this.cpf;
-    }
-
-    /**
-     * Obtém o telefone do cliente.
-     * 
-     * @returns O telefone de contato do cliente.
-     */
-    public getTelefone(): string {
-        return this.telefone;
-    }
-
-    /* Métodos Setters */
-
-    /**
      * Define o ID do cliente.
      * 
      * @param idCliente - Novo identificador único para o cliente.
      */
     public setIdCliente(idCliente: number): void {
         this.idCliente = idCliente;
+    }
+
+    /* Métodos para o atributo nome */
+
+    /**
+     * Obtém o nome do cliente.
+     * 
+     * @returns O nome completo do cliente.
+     */
+    public getNome(): string {
+        return this.nome;
     }
 
     /**
@@ -104,9 +86,43 @@ export class Cliente {
         this.nome = nome;
     }
 
+    /* Métodos para o atributo cpf */
+
+    /**
+     * Obtém o CPF do cliente.
+     * 
+     * @returns O CPF do cliente.
+     */
+    public getCpf(): string {
+        return this.cpf;
+    }
+
     /**
      * Define o CPF do cliente.
      * 
      * @param cpf - Novo CPF para o cliente.
-    */
+     */
+    public setCpf(cpf: string): void {
+        this.cpf = cpf;
+    }
+
+    /* Métodos para o atributo telefone */
+
+    /**
+     * Obtém o telefone do cliente.
+     * 
+     * @returns O telefone de contato do cliente.
+     */
+    public getTelefone(): string {
+        return this.telefone;
+    }
+
+    /**
+     * Define o telefone do cliente.
+     * 
+     * @param telefone - Novo telefone para o cliente.
+     */
+    public setTelefone(telefone: string): void {
+        this.telefone = telefone;
+    }
 }
