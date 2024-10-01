@@ -8,12 +8,12 @@ export class PedidoVenda {
     /**
      * Identificador único do pedido de venda.
      */
-    private idPedido: number;
+    private idPedido: number = 0;
 
     /**
      * Identificador do carro relacionado ao pedido de venda.
      */
-    private idCarro: number;
+    private idCarro: number = 0;
 
     /**
      * Data em que o pedido de venda foi feito.

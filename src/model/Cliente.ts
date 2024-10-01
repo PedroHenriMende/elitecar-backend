@@ -8,7 +8,7 @@ export class Cliente {
     /**
      * Identificador único do cliente.
      */
-    private idCliente: number;
+    private idCliente: number = 0;
 
     /**
      * Nome completo do cliente.
