@@ -46,81 +46,75 @@ export class Cliente {
 
     /* Métodos para o atributo idCliente */
 
-    /**
-     * Obtém o ID do cliente.
-     * 
-     * @returns O identificador único do cliente.
-     */
     public getIdCliente(): number {
         return this.idCliente;
     }
 
-    /**
-     * Define o ID do cliente.
-     * 
-     * @param idCliente - Novo identificador único para o cliente.
-     */
     public setIdCliente(idCliente: number): void {
         this.idCliente = idCliente;
     }
 
     /* Métodos para o atributo nome */
 
-    /**
-     * Obtém o nome do cliente.
-     * 
-     * @returns O nome completo do cliente.
-     */
     public getNome(): string {
         return this.nome;
     }
 
-    /**
-     * Define o nome do cliente.
-     * 
-     * @param nome - Novo nome para o cliente.
-     */
     public setNome(nome: string): void {
         this.nome = nome;
     }
 
     /* Métodos para o atributo cpf */
 
-    /**
-     * Obtém o CPF do cliente.
-     * 
-     * @returns O CPF do cliente.
-     */
     public getCpf(): string {
         return this.cpf;
     }
 
-    /**
-     * Define o CPF do cliente.
-     * 
-     * @param cpf - Novo CPF para o cliente.
-     */
     public setCpf(cpf: string): void {
         this.cpf = cpf;
     }
 
     /* Métodos para o atributo telefone */
 
-    /**
-     * Obtém o telefone do cliente.
-     * 
-     * @returns O telefone de contato do cliente.
-     */
     public getTelefone(): string {
         return this.telefone;
     }
 
-    /**
-     * Define o telefone do cliente.
-     * 
-     * @param telefone - Novo telefone para o cliente.
-     */
     public setTelefone(telefone: string): void {
         this.telefone = telefone;
+    }
+
+    // MÉTODO PARA ACESSAR O BANCO DE DADOS
+    // CRUD Create - Read - Update - Delete
+    static async listarClientes(): Promise<Array<Cliente> | null> {
+        let listaDeClientes: Array<Cliente> = [];
+        try {
+            // Query para consulta no banco de dados
+            const querySelectCliente = `SELECT * FROM cliente;`;
+
+            // Executa a query no banco de dados
+            const respostaBD = await database.query(querySelectCliente);
+
+            // Itera sobre os resultados da consulta e cria objetos Cliente
+            respostaBD.rows.forEach((cliente) => {
+                let novoCliente = new Cliente(
+                    cliente.nome,
+                    cliente.cpf,
+                    cliente.telefone
+                );
+
+                novoCliente.setIdCliente(cliente.idCliente);
+
+                // Adicionando o cliente na lista
+                listaDeClientes.push(novoCliente);
+            });
+
+            // Retorna a lista de clientes
+            return listaDeClientes;
+
+        } catch (error) {
+            console.log(`Erro ao acessar o modelo: ${error}`);
+            return null;
+        }
     }
 }
