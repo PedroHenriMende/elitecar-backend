@@ -1,5 +1,5 @@
 /**
- * Classe PedidoVenda representa um pedido de venda com atributos como idPedido, idCarro, data do pedido e valor do pedido.
+ * Classe PedidoVenda representa um pedido de venda com atributos como idPedido, idCarro, idCliente, data do pedido e valor do pedido.
  * A classe inclui métodos getters e setters para acessar e modificar seus atributos.
  */
 export class PedidoVenda {
@@ -16,6 +16,11 @@ export class PedidoVenda {
     private idCarro: number;
 
     /**
+     * Identificador do cliente relacionado ao pedido de venda.
+     */
+    private idCliente: number;
+
+    /**
      * Data em que o pedido de venda foi feito.
      */
     private dataPedido: Date;
@@ -27,21 +32,22 @@ export class PedidoVenda {
 
     /**
      * Construtor da classe PedidoVenda.
-     * Inicializa os atributos idPedido, idCarro, dataPedido e valorPedido com os valores fornecidos.
+     * Inicializa os atributos idCarro, idCliente, dataPedido e valorPedido com os valores fornecidos.
+     * O idPedido é gerado pelo banco de dados.
      * 
-     * @param idPedido - Identificador único do pedido de venda.
      * @param idCarro - Identificador do carro relacionado ao pedido.
+     * @param idCliente - Identificador do cliente relacionado ao pedido.
      * @param dataPedido - Data do pedido de venda.
      * @param valorPedido - Valor total do pedido de venda.
      */
     constructor(
-        idPedido: number,
         idCarro: number,
+        idCliente: number,
         dataPedido: Date,
         valorPedido: number
     ) {
-        this.idPedido = idPedido;
         this.idCarro = idCarro;
+        this.idCliente = idCliente;
         this.dataPedido = dataPedido;
         this.valorPedido = valorPedido;
     }
@@ -84,6 +90,26 @@ export class PedidoVenda {
      */
     public setIdCarro(idCarro: number): void {
         this.idCarro = idCarro;
+    }
+
+    /* Métodos para o atributo idCliente */
+
+    /**
+     * Obtém o ID do cliente relacionado ao pedido de venda.
+     * 
+     * @returns O identificador do cliente.
+     */
+    public getIdCliente(): number {
+        return this.idCliente;
+    }
+
+    /**
+     * Define o ID do cliente relacionado ao pedido de venda.
+     * 
+     * @param idCliente - Novo identificador do cliente relacionado ao pedido.
+     */
+    public setIdCliente(idCliente: number): void {
+        this.idCliente = idCliente;
     }
 
     /* Métodos para o atributo dataPedido */

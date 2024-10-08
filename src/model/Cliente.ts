@@ -27,20 +27,18 @@ export class Cliente {
 
     /**
      * Construtor da classe Cliente.
-     * Inicializa os atributos idCliente, nome, cpf e telefone com os valores fornecidos.
+     * Inicializa os atributos nome, cpf e telefone com os valores fornecidos.
+     * O idCliente é gerado pelo banco de dados.
      * 
-     * @param idCliente - Identificador único do cliente.
      * @param nome - Nome completo do cliente.
      * @param cpf - CPF do cliente.
      * @param telefone - Telefone de contato do cliente.
      */
     constructor(
-        idCliente: number,
         nome: string,
         cpf: string,
         telefone: string
     ) {
-        this.idCliente = idCliente;
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
