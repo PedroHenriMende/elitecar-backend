@@ -156,4 +156,37 @@ export class PedidoVenda {
             return null;
         }
     }
+    static async cadastroPedidoVenda(pedidoVenda: PedidoVenda): Promise<boolean> {
+        try {
+            // query para fazer insert de um carro no banco de dados
+            const queryInsertPedidoVenda = `INSERT INTO pedido_venda (id_carro, id_cliente, dataPedido, valorPedido)
+                                        VALUES
+                                        ('${pedidoVenda.getIdCarro()}', 
+                                        '${pedidoVenda.getIdCliente()}', 
+                                        ${pedidoVenda.getDataPedido()}
+                                        ${pedidoVenda.getValorPedido()},) 
+                                        RETURNING id_pedido;`;
+
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryInsertPedidoVenda);
+
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Pedido cadastrado com sucesso! ID do pedido: ${respostaBD.rows[0].id_pedido}`);
+                // true significa que o cadastro foi feito
+                return true;
+            }
+            // false significa que o cadastro NÃO foi feito.
+            return false;
+
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao cadastrar o pedido. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
+        }
+    }
 }

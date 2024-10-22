@@ -26,8 +26,7 @@ export class CarroController extends Carro {
     static async todos(req: Request, res: Response): Promise<Response> {
         try {
             // acessa a função de listar os carros e armazena o resultado
-            const listaDeCarros = await Carro.listarCarro
-            ();
+            const listaDeCarros = await Carro.listarCarro();
 
             // retorna a lista de carros há quem fez a requisição web
             return res.status(200).json(listaDeCarros);

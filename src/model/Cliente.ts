@@ -119,4 +119,36 @@ export class Cliente {
             return null;
         }
     }
+    static async cadastroCliente(cliente: Cliente): Promise<boolean> {
+        try {
+            // query para fazer insert de um carro no banco de dados
+            const queryInsertCliente = `INSERT INTO Cliente (nome, cpf, telefone)
+                                        VALUES
+                                        ('${cliente.getNome()}', 
+                                        '${cliente.getCpf()}', 
+                                        ${cliente.getTelefone()}, 
+                                        RETURNING id_cliente;`;
+
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryInsertCliente);
+
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Cliente cadastrado com sucesso! ID do carro: ${respostaBD.rows[0].id_cliente}`);
+                // true significa que o cadastro foi feito
+                return true;
+            }
+            // false significa que o cadastro NÃO foi feito.
+            return false;
+
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao cadastrar o cliente. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
+        }
+    }
 }
