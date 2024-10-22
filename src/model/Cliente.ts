@@ -1,3 +1,5 @@
+import { DatabaseModel } from "./DataBaseModel";
+const database = new DatabaseModel().pool;
 /**
  * Classe Cliente representa um cliente com atributos como idCliente, nome, CPF e telefone.
  * A classe inclui métodos getters e setters para acessar e modificar seus atributos.
