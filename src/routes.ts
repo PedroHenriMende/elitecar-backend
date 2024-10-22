@@ -16,19 +16,19 @@ router.get("/", (req: Request, res: Response) => {
 */ 
 // Rota para listar os carros
 router.get("/lista/carros", CarroController.todos);
-router.post('/lista/carro', CarroController.novo);
+router.post('/novo/carro', CarroController.novo);
 /* 
 * ROTAS PARA CLIENTES
 */ 
 // Rota para listar os clientes
-router.get("/lista/clientes", ClienteController.todos);
-router.post('/lista/cliente', ClienteController.novo);
+router.get("/listar/clientes", ClienteController.todos);
+router.post('/novo/cliente', ClienteController.novo);
 /* 
 * ROTAS PARA PEDIDOS
 */ 
 // Rota para listar os pedidos
 router.get("/lista/pedidos", PedidoVendaController.todos);
-router.get("/lista/pedidos", PedidoVendaController.novo);
+router.post("/novo/pedido", PedidoVendaController.novo);
 
 // exportando as rotas
 export { router };

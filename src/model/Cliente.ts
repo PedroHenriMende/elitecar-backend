@@ -126,7 +126,7 @@ export class Cliente {
                                         VALUES
                                         ('${cliente.getNome()}', 
                                         '${cliente.getCpf()}', 
-                                        ${cliente.getTelefone()}, 
+                                        '${cliente.getTelefone()}')
                                         RETURNING id_cliente;`;
 
             // executa a query no banco e armazena a resposta
