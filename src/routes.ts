@@ -15,7 +15,7 @@ router.get("/", (req: Request, res: Response) => {
 * ROTAS PARA CARROS
 */ 
 // Rota para listar os carros
-router.get("/lista/carros", CarroController.todos);
+router.get("/listar/carros", CarroController.todos);
 router.post('/novo/carro', CarroController.novo);
 /* 
 * ROTAS PARA CLIENTES
@@ -27,7 +27,7 @@ router.post('/novo/cliente', ClienteController.novo);
 * ROTAS PARA PEDIDOS
 */ 
 // Rota para listar os pedidos
-router.get("/lista/pedidos", PedidoVendaController.todos);
+router.get("/listar/pedidos", PedidoVendaController.todos);
 router.post("/novo/pedido", PedidoVendaController.novo);
 
 // exportando as rotas
