@@ -60,29 +60,82 @@ export class CarroController extends Carro {
             const carroRecebido: CarroDTO = req.body;
 
             // instanciando um objeto do tipo carro com as informações recebidas
-            const novoCarro = new Carro(carroRecebido.marca, 
-                                        carroRecebido.modelo, 
-                                        carroRecebido.ano, 
-                                        carroRecebido.cor);
+            const novoCarro = new Carro(carroRecebido.marca,
+                carroRecebido.modelo,
+                carroRecebido.ano,
+                carroRecebido.cor);
 
             // Chama a função de cadastro passando o objeto como parâmetro
             const repostaClasse = await Carro.cadastroCarro(novoCarro);
 
             // verifica a resposta da função
-            if(repostaClasse) {
+            if (repostaClasse) {
                 // retornar uma mensagem de sucesso
                 return res.status(200).json({ mensagem: "Carro cadastrado com sucesso!" });
             } else {
                 // retorno uma mensagem de erro
-                return res.status(400).json({ mensagem: "Erro ao cadastra o carro. Entre em contato com o administrador do sistema."})
+                return res.status(400).json({ mensagem: "Erro ao cadastra o carro. Entre em contato com o administrador do sistema." })
             }
-            
+
         } catch (error) {
             // lança uma mensagem de erro no console
             console.log(`Erro ao cadastrar um carro. ${error}`);
 
             // retorna uma mensagem de erro há quem chamou a mensagem
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o carro. Entre em contato com o administrador do sistema." });
+        }
+    }
+    static async remover(req: Request, res: Response): Promise<Response> {
+        try {
+
+            const idCarro = parseInt(req.params.idCarro as string);
+
+            const respostaModelo = await Carro.removerCarro(idCarro);
+
+            if (respostaModelo) {
+                return res.status(200).json({ mensagem: "O carro foi removido com sucesso!" });
+            } else {
+                return res.status(400).json({ mensagem: "Erro ao remover o carro. Entre em contato com o administrador do sistema" });
+            }
+
+        } catch (error) {
+            console.log(`Erro ao remover o carro. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o carro. Entre" })
+        }
+    }
+    static async atualizar(req: Request, res: Response): Promise<Response> {
+        try {
+            // recupera as informações a serem atualizadas no corpo da requisição
+            const carroRecebido: CarroDTO = req.body;
+            // recupera o ID do carro a ser atualizado
+            const idCarroRecebido = parseInt(req.params.idCarro as string);
+            // instanciando um objeto do tipo carrom
+            const carroAtualizado = new Carro(
+                carroRecebido.marca,
+                carroRecebido.modelo,
+                carroRecebido.ano,
+                carroRecebido.cor,
+
+            );
+            
+            // adicionando o ID no objeto carroAtualizado
+            carroAtualizado.setIdCarro(idCarroRecebido)
+
+            const respostaModelo = await Carro.atualizarCarro(carroAtualizado);
+
+            if(respostaModelo) {
+                return res.status(200).json({ mensagem: "O carro foi atualizado com sucesso!"});
+
+            }else{
+                return res.status(400).json({ mensagem: "Erro ao atualizar o carro. Entre"});
+            }
+
+
+        } catch (error) {
+            console.log(`Erro ao remover o carro. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o carro. Entre" })
         }
     }
 }

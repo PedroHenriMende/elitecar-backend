@@ -3,8 +3,8 @@ import { PedidoVenda } from "../model/PedidoVenda";
 
 
 interface PedidoVendaDTO {
-    id_carro: number,
-    id_cliente: number,
+    idCarro: number,
+    idCliente: number,
     dataPedido: Date,
     valorPedido: number,
 }
@@ -41,8 +41,8 @@ export class PedidoVendaController extends PedidoVenda {
             const pedidoVendaRecebido: PedidoVendaDTO = req.body;
 
             // instanciando um objeto do tipo carro com as informações recebidas
-            const novoPedidoVenda = new PedidoVenda(pedidoVendaRecebido.id_cliente, 
-                                        pedidoVendaRecebido.id_cliente, 
+            const novoPedidoVenda = new PedidoVenda(pedidoVendaRecebido.idCliente, 
+                                        pedidoVendaRecebido.idCliente, 
                                         pedidoVendaRecebido.dataPedido,
                                         pedidoVendaRecebido.valorPedido);
 
@@ -65,5 +65,58 @@ export class PedidoVendaController extends PedidoVenda {
             // retorna uma mensagem de erro há quem chamou a mensagem
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Pedido. Entre em contato com o administrador do sistema." });
         }
-}
+    }
+    static async remover(req: Request, res: Response): Promise<Response> {
+        try {
+
+            const idPedidoVenda = parseInt(req.params.idPedidoVenda as string);
+
+            const respostaModelo = await PedidoVenda.removerPedidoVenda(idPedidoVenda);
+
+            if (respostaModelo) {
+                return res.status(200).json({ mensagem: "O Pedido foi removido com sucesso!" });
+            } else {
+                return res.status(400).json({ mensagem: "Erro ao remover o Pedido. Entre em contato com o administrador do sistema" });
+            }
+
+        } catch (error) {
+            console.log(`Erro ao remover o Pedido. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o Pedido. Entre" })
+        }
+    }
+    static async atualizar(req: Request, res: Response): Promise<Response> {
+        try {
+            // recupera as informações a serem atualizadas no corpo da requisição
+            const pedidoVendaRecebido: PedidoVendaDTO = req.body;
+            // recupera o ID do Pedido a ser atualizado
+            const idPedidoVendaRecebido = parseInt(req.params.idPedidoVenda as string);
+            // instanciando um objeto do tipo Pedido
+            const PedidoVendaAtualizado = new PedidoVenda(
+                pedidoVendaRecebido.idCliente,
+                pedidoVendaRecebido.idCarro,
+                pedidoVendaRecebido.dataPedido,
+                pedidoVendaRecebido.valorPedido
+
+            );
+            
+            // adicionando o ID no objeto carroAtualizado
+            PedidoVendaAtualizado.setIdPedido(idPedidoVendaRecebido)
+
+            const respostaModelo = await PedidoVenda.atualizarPedidoVenda(PedidoVendaAtualizado);
+
+            if(respostaModelo) {
+                return res.status(200).json({ mensagem: "O Pedido foi atualizado com sucesso!"});
+
+            }else{
+                return res.status(400).json({ mensagem: "Erro ao atualizar o Pedido. Entre"});
+            }
+
+
+        } catch (error) {
+            console.log(`Erro ao remover o Pedido. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o Pedido. Entre" })
+        }
+    }
 }

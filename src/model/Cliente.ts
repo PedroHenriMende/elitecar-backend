@@ -151,4 +151,70 @@ export class Cliente {
             return false;
         }
     }
+// Função assíncrona para remover um cliente do banco de dados
+// Parâmetro:
+// - idCliente (Number): o ID do cliente que será removido
+// Retorno:
+// - boolean: true se o cliente foi removido com sucesso, false caso contrário
+static async removerCliente(idCliente: Number): Promise<boolean> {
+    try {
+        // Define a query SQL para deletar um cliente com base no ID fornecido
+        // A tabela "cliente" será atualizada com a remoção do registro cujo id_cliente corresponde ao parâmetro
+        const queryDeleteCliente = `DELETE FROM cliente WHERE id_cliente = ${idCliente}`;
+
+        // Executa a query no banco de dados e armazena a resposta em respostaBD
+        // respostaBD conterá informações sobre o número de linhas afetadas pela operação
+        const respostaBD = await database.query(queryDeleteCliente);
+
+        // Verifica se pelo menos uma linha foi afetada pela operação (indica sucesso na remoção)
+        if (respostaBD.rowCount != 0) {
+            // Loga no console que o cliente foi removido com sucesso, incluindo o ID removido
+            console.log(`Cliente removido com sucesso! ID removido: ${idCliente}`);
+            return true; // Retorna true para indicar sucesso
+        }
+
+        // Caso nenhuma linha tenha sido afetada, retorna false
+        return false;
+
+    } catch (error) {
+        // Caso ocorra um erro na execução da query, exibe mensagens de log
+        console.log(`Erro ao remover cliente. Verifique os logs para mais detalhes.`);
+        // Exibe os detalhes do erro no console para ajudar na depuração
+        console.log(error);
+        return false; // Retorna false para indicar falha na remoção
+    }
 }
+static async atualizarCliemte(cliente: Cliente): Promise<boolean> {
+    try {
+        // query para fazer update de um carro no banco de dados
+        const queryUpdateCliente = `UPDATE cliente SET
+                                    nome = '${cliente.getNome()}', 
+                                    cpf = '${cliente.getCpf()}', 
+                                    telefone = '${cliente.getTelefone()}' 
+                                    WHERE id_cliente = ${cliente.getIdCliente()};`;
+
+        console.log(queryUpdateCliente);
+        // executa a query no banco e armazena a resposta
+        const respostaBD = await database.query(queryUpdateCliente);
+
+        // verifica se a quantidade de linhas modificadas é diferente de 0
+        if (respostaBD.rowCount != 0) {
+            console.log(`Cliente atualizado com sucesso! ID do Cliente: ${cliente.getIdCliente()}`);
+            // true significa que a atualização foi bem sucedida
+            return true;
+        }
+        // false significa que a atualização NÃO foi bem sucedida.
+        return false;
+
+        // tratando o erro
+    } catch (error) {
+        // imprime outra mensagem junto com o erro
+        console.log('Erro ao atualizar o cliente. Verifique os logs para mais detalhes.');
+        // imprime o erro no console
+        console.log(error);
+        // retorno um valor falso
+        return false;
+    }
+}
+}
+

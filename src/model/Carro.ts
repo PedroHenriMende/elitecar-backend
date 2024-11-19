@@ -162,8 +162,8 @@ export class Carro {
         } catch (error) {
             console.log(`Erro ao acessar o modelo: ${error}`);
             return null;
-            
-        } 
+
+        }
     }
 
     static async cadastroCarro(carro: Carro): Promise<boolean> {
@@ -199,4 +199,73 @@ export class Carro {
             return false;
         }
     }
+// Método assíncrono para remover um carro do banco de dados
+// Parâmetro:
+// - idCarro (Number): o ID do carro que será removido
+// Retorno:
+// - boolean: true se o carro foi removido com sucesso, false caso contrário
+static async removerCarro(idCarro: Number): Promise<boolean> {
+    try {
+        // Monta a query SQL para deletar um carro com base no ID fornecido
+        const queryDeleteCarro = `DELETE FROM carro WHERE id_Carro = ${idCarro}`;
+
+        // Executa a query no banco de dados e armazena a resposta
+        const respostaBD = await database.query(queryDeleteCarro);
+
+        // Verifica se pelo menos uma linha foi afetada pela operação (carro removido com sucesso)
+        if (respostaBD.rowCount != 0) {
+            // Loga no console que o carro foi removido, incluindo o ID removido
+            console.log(`Carro removido com sucesso! ID removido: ${idCarro}`);
+            return true; // Retorna true para indicar que o carro foi removido
+        }
+
+        // Retorna false caso nenhuma linha tenha sido afetada
+        return false;
+
+    } catch (error) {
+        // Tratamento de erro: loga uma mensagem de erro para depuração
+        console.log(`Erro ao remover carro. Verifique os logs para mais detalhes.`);
+        // Loga os detalhes do erro no console
+        console.log(error);
+        return false; // Retorna false em caso de erro na operação
+    }
+}
+
+// Método assíncrono para atualizar os dados de um carro no banco de dados
+// Parâmetro:
+// - carro (Carro): objeto contendo os novos dados do carro (marca, modelo, ano, cor, ID)
+// Retorno:
+// - boolean: true se os dados do carro foram atualizados com sucesso, false caso contrário
+static async atualizarCarro(carro: Carro): Promise<boolean> {
+    try {
+        // query para fazer update de um carro no banco de dados
+        const queryUpdateCarro = `UPDATE carro
+                                    SET marca = '${carro.getMarca()}', 
+                                        modelo = '${carro.getModelo()}', 
+                                        ano = ${carro.getAno()}, 
+                                        cor = '${carro.getCor()}'
+                                    WHERE id_carro = ${carro.getIdCarro()};`;
+
+        // executa a query no banco e armazena a resposta
+        const respostaBD = await database.query(queryUpdateCarro);
+
+        // verifica se a quantidade de linhas modificadas é diferente de 0
+        if (respostaBD.rowCount != 0) {
+            console.log(`Carro atualizado com sucesso! ID do carro: ${carro.getIdCarro()}`);
+            // true significa que a atualização foi bem sucedida
+            return true;
+        }
+        // false significa que a atualização NÃO foi bem sucedida.
+        return false;
+
+        // tratando o erro
+    } catch (error) {
+        // imprime outra mensagem junto com o erro
+        console.log('Erro ao atualizar o carro. Verifique os logs para mais detalhes.');
+        // imprime o erro no console
+        console.log(error);
+        // retorno um valor falso
+        return false;
+    }
+}
 }

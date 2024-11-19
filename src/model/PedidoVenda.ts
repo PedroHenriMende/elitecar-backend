@@ -189,4 +189,56 @@ export class PedidoVenda {
             return false;
         }
     }
+    static async removerPedidoVenda(idPedidoVenda: Number): Promise<boolean> {
+        try {
+            const queryDeletePedidoVenda = `DELETE FROM pedido_venda WHERE id_pedido = ${idPedidoVenda}`;
+
+            const respostaBD = await database.query(queryDeletePedidoVenda);
+
+            if (respostaBD.rowCount != 0) {
+                console.log(`PedidoVenda removido com sucesso! ID removido: ${idPedidoVenda}`);
+                return true;
+            }
+
+            return false;
+
+        } catch (error) {
+            console.log(`Erro ao remover pedido. Verifique os logs para mais detalhes.`);
+            console.log(error);
+            return false;
+        }
+    }
+    static async atualizarPedidoVenda(pedidoVenda: PedidoVenda): Promise<boolean> {
+        try {
+            // query para fazer update de um carro no banco de dados
+            const queryUpdatePedidoVenda = `UPDATE pedido_venda SET
+                                            id_cliente = ${pedidoVenda.getIdCliente()}, 
+                                            id_carro = ${pedidoVenda.getIdCarro()}, 
+                                            data_pedido = '${pedidoVenda.getDataPedido()}',
+                                            valor_pedido = ${pedidoVenda.getValorPedido()}
+                                            WHERE id_pedido = ${pedidoVenda.getIdPedido()};`;
+    
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryUpdatePedidoVenda);
+    
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Pedido atualizado com sucesso! ID do Pedido: ${pedidoVenda.getIdPedido()}`);
+                // true significa que a atualização foi bem sucedida
+                return true;
+            }
+            // false significa que a atualização NÃO foi bem sucedida.
+            return false;
+    
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao atualizar o Pedido. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
+        }
+    }
 }
+

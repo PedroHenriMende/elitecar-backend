@@ -63,5 +63,59 @@ export class ClienteController extends Cliente {
             // retorna uma mensagem de erro há quem chamou a mensagem
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Cliente. Entre em contato com o administrador do sistema." });
         }
+    }
+    static async remover(req: Request, res: Response): Promise<Response> {
+        try {
+
+            const idCliente = parseInt(req.params.idCliente as string);
+
+            const respostaModelo = await Cliente.removerCliente(idCliente);
+
+            if (respostaModelo) {
+                return res.status(200).json({ mensagem: "O cliente foi removido com sucesso!" });
+            } else {
+                return res.status(400).json({ mensagem: "Erro ao remover o cliente. Entre em contato com o administrador do sistema" });
+            }
+
+        } catch (error) {
+            console.log(`Erro ao remover o cliente. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o cliente. Entre" })
+        }
+    }
+    static async atualizar(req: Request, res: Response): Promise<Response> {
+        try {
+            // recupera as informações a serem atualizadas no corpo da requisição
+            const clienteRecebido: ClienteDTO = req.body;
+            // recupera o ID do cliente a ser atualizado
+            const idClienteRecebido = parseInt(req.params.idCliente as string);
+            // instanciando um objeto do tipo cliente
+            const clienteAtualizado = new Cliente(
+                clienteRecebido.nome,
+                clienteRecebido.cpf,
+                clienteRecebido.telefone,
+
+            );
+            
+            // adicionando o ID no objeto clienteAtualizado
+            clienteAtualizado.setIdCliente(idClienteRecebido)
+
+            const respostaModelo = await Cliente.atualizarCliemte(clienteAtualizado);
+
+            if(respostaModelo) {
+                return res.status(200).json({ mensagem: "O Cliente foi atualizado com sucesso!"});
+
+            }else{
+                return res.status(400).json({ mensagem: "Erro ao atualizar o Cliente. Entre"});
+            }
+
+
+        } catch (error) {
+            console.log(`Erro ao remover o Cliente. ${error}`);
+
+            return res.status(400).json({ mensagem: "Não foi possível remover o Cliente. Entre" })
+        }
+    }
 }
-}
+
+
